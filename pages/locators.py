@@ -30,14 +30,13 @@ class SignupFormLocators(object):
     SIGUN_UP_BTN = (By.CSS_SELECTOR, "button.qa-submit")
 
 
-
 class RegisterModalLocators(object):
     REGISTER_SUCCESS = (By.CSS_SELECTOR, "section.register-success")
     API_KEY = (By.CSS_SELECTOR, ".modal.register-success .api-key")
     MODAL_CONTINUE = (By.CLASS_NAME, "qa-continue")
 
-# ------------------------- Pages -----------------------------------------------------------
 
+# ------------------------- Pages -----------------------------------------------------------
 class HomePageLocators(object):
     HOME_HERO = (By.CSS_SELECTOR, "main.display .home-hero")
 

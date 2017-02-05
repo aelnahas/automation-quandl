@@ -92,3 +92,5 @@ ENV/
 # idea project
 .idea/workspace.xml
 .idea/tasks.xml
+
+/reports
