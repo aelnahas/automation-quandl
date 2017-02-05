@@ -7,6 +7,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 class PageNotLoaded(Exception):
     pass
 
+
 class PageObject(object):
     """
         The base page object, all pages will extend this page
@@ -60,21 +61,40 @@ class PageObject(object):
         raise NotImplemented("This method needs to be implemented in the specific page object instance")
 
     def find_element(self, locator, context=None):
+        """Find an element within this page
+            :param locator: a selenium web element locator, of the format (By.<locator_type>, "search pattern")
+            :param context: if a context is passed, find_element will use the context to find the element within it.
+                    This is useful if the page needs to use a web element as a context to find a nested element for
+                    example.
+            :returns: the selenium web element if found
+            :raises: NoSuchElementException: if selenium fails to find the element
+        """
         if context:
             return context.find_element(*locator)
 
         return self._webdriver.find_element(*locator)
 
     def find_multi_elements(self, locator, context=None):
+        """Find a list of elements with same locator within this page
+            :param locator: a selenium web element locator, of the format (By.<locator_type>, "search pattern")
+            :param context: if a context is passed, find_element will use the context to find the element within it.
+                    This is useful if the page needs to use a web element as a context to find a nested element for
+                    example.
+            :returns: the list of the matching web elements. note if no match is found , the function will return
+                        an empty list
+        """
         if context:
             return context.find_element(*locator)
         return self._webdriver.find_element(*locator)
 
     def click_element(self, locator):
+        """find the element then click it"""
         self.find_element(*locator).click()
 
     def send_keys(self, locator, text):
+        """Find an editable element and change the text"""
         element = self.find_element(locator)
+        # clear first then send the new text
         element.clear()
         element.send_keys(text)
 

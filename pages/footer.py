@@ -3,7 +3,7 @@ from pages.locators import FooterLocators
 
 
 class Footer(PageObject):
-
+    """Footer containing various links, shared among many pages"""
     def is_loaded(self):
         return self._is_loaded_helper(FooterLocators.CAREERS_LINK)
 

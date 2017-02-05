@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 # element locators can be separated . the main advantage of doing this is re-usability
 # Things like top bar seems to  appear in multiple pages, so this would be common place to store its elements.
 
+
 # ------------------------- Widgets / Common ----------------------------------------------
 class TopBarLocators(object):
     TOP_BAR = (By.CLASS_NAME, "application-header")

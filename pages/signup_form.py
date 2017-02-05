@@ -3,6 +3,7 @@ from pages.locators import SignupFormLocators
 
 
 class SignupForm(PageObject):
+    """A sign up form widget, can be seen on the home page"""
 
     def is_loaded(self):
         return self._is_loaded_helper(SignupFormLocators.FORM)
@@ -37,3 +38,9 @@ class SignupForm(PageObject):
 
     def submit(self):
         self.find_element(SignupFormLocators.SIGUN_UP_BTN).click()
+
+    def submission_is_successful(self):
+        pass
+
+    def dismiss_modal(self):
+        pass
