@@ -72,6 +72,7 @@ class TopBarNav(PageObject):
     def logout(self):
         """logs the user out"""
         # first find the visible user menu
+        WebDriverWait(self._webdriver, 10, 1).until(presence_of_element_located(TopBarLocators.ACCOUNT_SETTINGS))
         user_menu = self.user_menu
 
         user_menu.click()
