@@ -1,5 +1,9 @@
+import time
+from selenium.webdriver.support.expected_conditions import presence_of_element_located
+from selenium.webdriver.support.wait import WebDriverWait
+
 from common.page_object import PageObject
-from pages.locators import SigninLocators
+from pages.locators import SigninLocators, TopBarLocators
 
 
 class SigninPage(PageObject):
@@ -23,6 +27,7 @@ class SigninPage(PageObject):
 
     def log_in(self):
         self.click_element(SigninLocators.LOGIN_BTN)
+        WebDriverWait(self._webdriver, 10, 1).until(presence_of_element_located(TopBarLocators.ACCOUNT_SETTINGS))
 
     def create_new_account(self):
         self.click_element(SigninLocators.CREATE_NEW_LINK)

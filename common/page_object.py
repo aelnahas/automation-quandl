@@ -1,5 +1,5 @@
 # A common base page object to be used by all the page object
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, StaleElementReferenceException
 from selenium.webdriver.support.expected_conditions import visibility_of_element_located, element_to_be_clickable
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -61,18 +61,18 @@ class PageObject(object):
         raise NotImplemented("This method needs to be implemented in the specific page object instance")
 
     def find_element(self, locator, context=None):
-        """Find an element within this page
-            :param locator: a selenium web element locator, of the format (By.<locator_type>, "search pattern")
-            :param context: if a context is passed, find_element will use the context to find the element within it.
-                    This is useful if the page needs to use a web element as a context to find a nested element for
-                    example.
-            :returns: the selenium web element if found
-            :raises: NoSuchElementException: if selenium fails to find the element
-        """
-        if context:
-            return context.find_element(*locator)
+        elements = self.find_multi_elements(locator=locator, context=context)
 
-        return self._webdriver.find_element(*locator)
+        # return only the menu that is displayed and enabled, i.e. one that is actually clickable
+        for element in elements:
+            try:
+                if element.is_displayed() and element.is_enabled():
+                    return element
+            except StaleElementReferenceException:
+                pass
+
+        # either no user menu elements were found at all, or none were clickable
+        return None
 
     def find_multi_elements(self, locator, context=None):
         """Find a list of elements with same locator within this page
@@ -83,9 +83,10 @@ class PageObject(object):
             :returns: the list of the matching web elements. note if no match is found , the function will return
                         an empty list
         """
-        if context:
-            return context.find_element(*locator)
-        return self._webdriver.find_element(*locator)
+        if context is None:
+            context = self._webdriver
+
+        return context.find_elements(*locator)
 
     def click_element(self, locator, context=None):
         """find the element then click it"""
@@ -94,7 +95,6 @@ class PageObject(object):
 
         # wait until element is clickable before attempting to click
         WebDriverWait(context, 5, 0.5).until(element_to_be_clickable(locator)).click()
-
 
     def send_keys(self, locator, text, context=None):
         """Find an editable element and change the text"""

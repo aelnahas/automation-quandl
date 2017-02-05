@@ -7,11 +7,13 @@ from selenium.webdriver.common.by import By
 # ------------------------- Widgets / Common ----------------------------------------------
 class TopBarLocators(object):
     TOP_BAR = (By.CLASS_NAME, "application-header")
-    DROP_DOWN_MENU = (By.ID, "ember693")
     DOCS_AND_HELP = (By.ID, "ember665")
     DOCS_AND_HELP_DROPDOWN = (By.ID, "ember696")
     SIGN_IN = (By.CLASS_NAME, "qa-top-bar-log-in")
     LOGO = (By.CLASS_NAME, "quandl-logo")
+    LOG_OUT = (By.CLASS_NAME, "qa-logout")
+    USER_MENU = (By.CLASS_NAME, "qa-user-menu")
+    ACCOUNT_SETTINGS = (By.CLASS_NAME, "qa-account-settings")
 
 
 class FooterLocators(object):
@@ -26,6 +28,7 @@ class SignupFormLocators(object):
     PASSOWRD = (By.CLASS_NAME, "qa-password div input")
     ERROR_MESSAGE = (By.CLASS_NAME, "qa-error-message")
     SIGUN_UP_BTN = (By.CSS_SELECTOR, "button.qa-submit")
+
 
 
 class RegisterModalLocators(object):

@@ -1,9 +1,11 @@
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.support.expected_conditions import visibility_of_element_located
+import time
+from selenium.common.exceptions import NoSuchElementException, TimeoutException, ElementNotVisibleException
+from selenium.webdriver.support.expected_conditions import visibility_of_element_located, \
+    invisibility_of_element_located, element_to_be_clickable, presence_of_element_located
 from selenium.webdriver.support.wait import WebDriverWait
 
 from common.page_object import PageObject
-from .locators import TopBarLocators, HomePageLocators
+from .locators import TopBarLocators, HomePageLocators, SigninLocators
 
 
 class TopBarNav(PageObject):
@@ -18,13 +20,10 @@ class TopBarNav(PageObject):
         return len(self._find_visible_logos())
 
     @property
-    def drop_down_menu(self):
+    def user_menu(self):
         """The drop down menu if found"""
-        try:
-            return self.find_element(TopBarLocators.DROP_DOWN_MENU)
+        return self.find_element(TopBarLocators.USER_MENU)
 
-        except NoSuchElementException:
-            return None
 
     def _find_visible_logos(self):
         """Find all visible logos in the top bar, due to responsive layout there is a potential that the page
@@ -46,7 +45,7 @@ class TopBarNav(PageObject):
 
     def navigate_to_docs_and_help(self):
         """A Function to navigate ot the docs & help."""
-        drop_down_menu = self.drop_down_menu
+        drop_down_menu = self.user_menu
 
         # check if the responive layout has rendered the drop down hamburger menu ( i.e. screen is small enough )
         if drop_down_menu:
@@ -58,5 +57,30 @@ class TopBarNav(PageObject):
             self.find_element(TopBarLocators.DOCS_AND_HELP).click()
 
     def navigate_to_signin(self):
-        self.click_element(TopBarLocators.SIGN_IN)
-        WebDriverWait(self._webdriver, 5, 0.5).until()
+
+        sign_in = self.find_element(TopBarLocators.SIGN_IN)
+        if sign_in:
+            sign_in.click()
+
+        else:
+            user_menu = self.user_menu
+            user_menu.click()
+            self.click_element(TopBarLocators.SIGN_IN, context=user_menu)
+
+        WebDriverWait(self._webdriver, 5, 0.5).until(visibility_of_element_located(SigninLocators.USERNAME))
+
+    def logout(self):
+        """logs the user out"""
+        # first find the visible user menu
+        user_menu = self.user_menu
+
+        user_menu.click()
+
+        WebDriverWait(user_menu, 5, 0.5).until(visibility_of_element_located(TopBarLocators.LOG_OUT),
+                                               message="Log out button is not present")
+        # use the visible user menu as context to find the log out button
+        self.find_element(TopBarLocators.LOG_OUT).click()
+
+        # wait until there is no account setting reference, which means we logged out
+        WebDriverWait(self._webdriver, 10, 1).until(invisibility_of_element_located(TopBarLocators.ACCOUNT_SETTINGS),
+                                                    message="Could not log out user")
