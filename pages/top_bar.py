@@ -56,3 +56,7 @@ class TopBarNav(PageObject):
         # the link is fully exposed, i.e. the web browser has a screen large enough
         else:
             self.find_element(TopBarLocators.DOCS_AND_HELP).click()
+
+    def navigate_to_signin(self):
+        self.click_element(TopBarLocators.SIGN_IN)
+        WebDriverWait(self._webdriver, 5, 0.5).until()

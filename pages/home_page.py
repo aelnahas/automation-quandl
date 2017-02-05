@@ -31,3 +31,7 @@ class HomePage(PageObject):
         footer = Footer(self._webdriver)
         self._check_page(footer, "Footer")
         return footer
+
+    def sign_in(self):
+        """helper method to go straight to signing in"""
+        self.top_bar.navigate_to_signin()

@@ -38,9 +38,3 @@ class SignupForm(PageObject):
 
     def submit(self):
         self.find_element(SignupFormLocators.SIGUN_UP_BTN).click()
-
-    def submission_is_successful(self):
-        pass
-
-    def dismiss_modal(self):
-        pass

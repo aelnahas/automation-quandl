@@ -25,7 +25,13 @@ class SignupFormLocators(object):
     EMAIL = (By.CLASS_NAME, "qa-email div input")
     PASSOWRD = (By.CLASS_NAME, "qa-password div input")
     ERROR_MESSAGE = (By.CLASS_NAME, "qa-error-message")
-    SIGUN_UP_BTN = (By.CLASS_NAME, "button.qa-submit")
+    SIGUN_UP_BTN = (By.CSS_SELECTOR, "button.qa-submit")
+
+
+class RegisterModalLocators(object):
+    REGISTER_SUCCESS = (By.CSS_SELECTOR, "section.register-success")
+    API_KEY = (By.CSS_SELECTOR, ".modal.register-success .api-key")
+    MODAL_CONTINUE = (By.CLASS_NAME, "qa-continue")
 
 # ------------------------- Pages -----------------------------------------------------------
 
@@ -35,3 +41,18 @@ class HomePageLocators(object):
 
 class CareersPageLocators(object):
     CAREERS_HERO = (By.CSS_SELECTOR, "div.careers-hero")
+
+
+class SigninLocators(object):
+    USERNAME = (By.CLASS_NAME, "qa-login-username")
+    PASSWORD = (By.CLASS_NAME, "qa-login-password")
+    LOGIN_BTN = (By.CLASS_NAME, "qa-login")
+    CREATE_NEW_LINK = (By.CLASS_NAME, "qa-register")
+
+
+class SignupPageLocators(object):
+    USERNAME = (By.CLASS_NAME, "qa-username")
+    EMAIL =  (By.CLASS_NAME, "qa-email")
+    PASSWORD = (By.CLASS_NAME, "qa-password")
+    CONFIRM_PASSWORD = (By.CLASS_NAME, "qa-password-confirmation")
+    SIGN_UP_BTN = (By.CLASS_NAME, "qa-sign-up-free")

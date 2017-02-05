@@ -87,13 +87,13 @@ class PageObject(object):
             return context.find_element(*locator)
         return self._webdriver.find_element(*locator)
 
-    def click_element(self, locator):
+    def click_element(self, locator, context=None):
         """find the element then click it"""
-        self.find_element(*locator).click()
+        self.find_element(locator=locator, context=context).click()
 
-    def send_keys(self, locator, text):
+    def send_keys(self, locator, text, context=None):
         """Find an editable element and change the text"""
-        element = self.find_element(locator)
+        element = self.find_element(locator=locator, context=context)
         # clear first then send the new text
         element.clear()
         element.send_keys(text)
