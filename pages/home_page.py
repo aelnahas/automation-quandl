@@ -1,9 +1,6 @@
-from selenium.webdriver.support.expected_conditions import visibility_of_element_located
-from selenium.webdriver.support.wait import WebDriverWait
-
 from common.page_object import PageObject, PageNotLoaded
 from pages.footer import Footer
-from pages.locators import HomePageLocators, TopBarLocators
+from pages.locators import HomePageLocators
 from pages.signin_page import SigninPage
 from pages.top_bar import TopBarNav
 
@@ -40,13 +37,17 @@ class HomePage(PageObject):
         self.top_bar.navigate_to_signin()
 
     def sign_in(self, username, password):
-        """helper method to go straight to signing in"""
+        """sign a user in
+
+            :param username: username string
+            :param password: username password
+        """
+        # fill in the form and submit it
         self.top_bar.navigate_to_signin()
         sign_in = SigninPage(self._webdriver)
         sign_in.username = username
         sign_in.password = password
         sign_in.log_in()
-
 
     def logout(self):
         """Log out of a user account"""
