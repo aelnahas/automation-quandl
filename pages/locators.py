@@ -1,7 +1,6 @@
 from selenium.webdriver.common.by import By
 
-# element locators can be separated . the main advantage of doing this is re-usability
-# Things like top bar seems to  appear in multiple pages, so this would be common place to store its elements.
+# This is script containing all locators used. The idea is to keep them in a common script to avoid duplicating them
 
 
 # ------------------------- Widgets / Common ----------------------------------------------
@@ -53,6 +52,9 @@ class SigninLocators(object):
 
 
 class SignupPageLocators(object):
+    """This locator is for the sign up page that gets loaded if the user chooses to create a new account from
+        the sign in page
+    """
     USERNAME = (By.CLASS_NAME, "qa-username")
     EMAIL =  (By.CLASS_NAME, "qa-email")
     PASSWORD = (By.CLASS_NAME, "qa-password")

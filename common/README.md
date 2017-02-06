@@ -1,10 +1,14 @@
-from common.page_object import PageObject, PageNotLoaded
-from pages.footer import Footer
-from pages.locators import HomePageLocators
-from pages.signin_page import SigninPage
-from pages.top_bar import TopBarNav
+# Common Libraries and Utilities
 
+For now only  the page_object script lives here. This is meant as a space for common scripts, modules and libraries
+to sit in , so that they can be easily shared.
 
+## PageObject
+An abstract page object found in the page_object. All pages created in the pages folder extend this class.
+
+### Example of Usage:
+
+```python
 class HomePage(PageObject):
     """ Quandl's page object """
 
@@ -52,3 +56,5 @@ class HomePage(PageObject):
     def logout(self):
         """Log out of a user account"""
         self.top_bar.logout()
+
+```

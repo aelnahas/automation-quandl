@@ -25,12 +25,15 @@ class PageObject(object):
             raise ValueError("Both base_url and url are None. "
                               "At least one of the base_url or url should be a valid url string")
 
+        # if only the url is present then go to that url
         elif self._base_url is None:
             self._webdriver.get(url)
 
+        # only base url is present, go to the base url
         elif url is None:
             self._webdriver.get(self._base_url)
 
+        # both are present, combine then and then go to that url
         else:
             self._webdriver.get(self._base_url + url)
 
@@ -47,6 +50,11 @@ class PageObject(object):
         return self._webdriver.title
 
     def _is_loaded_helper(self, element_locator):
+        """A helper method that determines if a pages is loaded based on the presence of an element
+
+            :param element_locator: the element locator, this should be some pivotal element in that page
+            :return True: if the page is loaded, i.e. element is found and visible. False otherwise
+        """
         try:
             WebDriverWait(self._webdriver, 10, 1).until(visibility_of_element_located(element_locator))
             return True
@@ -61,11 +69,23 @@ class PageObject(object):
         raise NotImplemented("This method needs to be implemented in the specific page object instance")
 
     def find_element(self, locator, context=None):
+        """Find an element , will filter out only those that are actually visible by the user
+
+            :param locator: a selenium locator that can be used to find the element, e.g. (By.ID, "some_id")
+            :param context: can be used if user needs to find a nested element. in that case pass in the element
+                    as a context, if left as None, the method will just use the webdriver ( top of the html tree )
+                    to find the element
+
+            :return WebElement: if there is atleast one displayed element matching locator pattern. If there are more
+                    than one, then method will return the first.
+                    If no elements are found, or none are displayed, the method will return None.
+        """
         elements = self.find_multi_elements(locator=locator, context=context)
 
         # return only the menu that is displayed and enabled, i.e. one that is actually clickable
         for element in elements:
             try:
+                # return the first element that is displayed and is enabled.
                 if element.is_displayed() and element.is_enabled():
                     return element
             except StaleElementReferenceException:
