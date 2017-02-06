@@ -21,6 +21,7 @@ def logger():
 @pytest.fixture(scope="session")
 def browser(request, logger):
     driver = webdriver.Firefox()
+    driver.maximize_window()
     logger.info("Starting {} Browser".format(driver.name))
 
     def tear_down():

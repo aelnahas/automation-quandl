@@ -130,6 +130,7 @@ class PageObject(object):
 
     def send_keys(self, locator, text, context=None):
         """Find an editable element and change the text"""
+        WebDriverWait(self._webdriver, 5, 0.5).until(element_to_be_clickable(locator))
         element = self.find_element(locator=locator, context=context)
         # clear first then send the new text
         element.clear()

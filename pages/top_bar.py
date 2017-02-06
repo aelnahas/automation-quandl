@@ -72,12 +72,15 @@ class TopBarNav(PageObject):
 
             for element in elements:
                 if element.is_enabled() and element.is_displayed():
-                    element.click()
+                    try:
+                        element.click()
 
-                    logout = self.find_element(TopBarLocators.LOG_OUT, context=element)
-                    if logout and logout.is_enabled() and logout.is_displayed():
-                        logout.click()
-                        return
+                        logout = self.find_element(TopBarLocators.LOG_OUT, context=element)
+                        if logout and logout.is_enabled() and logout.is_displayed():
+                            logout.click()
+                            return
+                    except:
+                        pass
 
             time.sleep(1)
 

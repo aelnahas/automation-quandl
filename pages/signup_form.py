@@ -1,3 +1,5 @@
+from selenium.webdriver.support.wait import WebDriverWait
+
 from common.page_object import PageObject
 from pages.locators import SignupFormLocators
 
@@ -10,6 +12,7 @@ class SignupForm(PageObject):
 
     @property
     def title(self):
+
         return self.find_element(SignupFormLocators.TITLE).text
 
     @property

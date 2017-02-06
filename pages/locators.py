@@ -22,9 +22,9 @@ class FooterLocators(object):
 class SignupFormLocators(object):
     FORM = (By.CLASS_NAME, "qa-about-signup")
     TITLE = (By.CSS_SELECTOR, ".qa-about-signup h3")
-    NAME = (By.CLASS_NAME, "qa-name div input")
-    EMAIL = (By.CLASS_NAME, "qa-email div input")
-    PASSOWRD = (By.CLASS_NAME, "qa-password div input")
+    NAME = (By.CSS_SELECTOR, ".qa-name div input")
+    EMAIL = (By.CSS_SELECTOR, ".qa-email div input")
+    PASSOWRD = (By.CSS_SELECTOR, ".qa-password div input")
     ERROR_MESSAGE = (By.CLASS_NAME, "qa-error-message")
     SIGUN_UP_BTN = (By.CSS_SELECTOR, "button.qa-submit")
 
@@ -55,8 +55,8 @@ class SignupPageLocators(object):
     """This locator is for the sign up page that gets loaded if the user chooses to create a new account from
         the sign in page
     """
-    USERNAME = (By.CLASS_NAME, "qa-username")
-    EMAIL =  (By.CLASS_NAME, "qa-email")
-    PASSWORD = (By.CLASS_NAME, "qa-password")
-    CONFIRM_PASSWORD = (By.CLASS_NAME, "qa-password-confirmation")
-    SIGN_UP_BTN = (By.CLASS_NAME, "qa-sign-up-free")
+    USERNAME = (By.CSS_SELECTOR, "input.qa-username")
+    EMAIL =  (By.CSS_SELECTOR, "input.qa-email")
+    PASSWORD = (By.CSS_SELECTOR, "input.qa-password")
+    CONFIRM_PASSWORD = (By.CSS_SELECTOR, "input.qa-password-confirmation")
+    SIGN_UP_BTN = (By.CSS_SELECTOR, "button.qa-sign-up-free")
