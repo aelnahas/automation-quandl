@@ -17,8 +17,6 @@ class RegisterResultModal(PageObject):
     def dismiss(self):
         """Dismiss the Modal by click the continue button"""
         self.click_element(RegisterModalLocators.MODAL_CONTINUE)
-        WebDriverWait(self._webdriver, 10, 1)\
-            .until(invisibility_of_element_located(RegisterModalLocators.REGISTER_SUCCESS))
 
     def is_successful_registration(self):
         """A function that determines whether if the user registration was successful

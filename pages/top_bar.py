@@ -1,3 +1,5 @@
+import time
+from selenium.common.exceptions import NoSuchElementException, TimeoutException, ElementNotVisibleException
 from selenium.webdriver.support.expected_conditions import visibility_of_element_located, \
     invisibility_of_element_located, presence_of_element_located
 from selenium.webdriver.support.wait import WebDriverWait
@@ -71,6 +73,7 @@ class TopBarNav(PageObject):
         WebDriverWait(self._webdriver, 10, 1).until(presence_of_element_located(TopBarLocators.ACCOUNT_SETTINGS))
 
         # expand the hamburger menu
+        WebDriverWait(self._webdriver, 10, 1).until(presence_of_element_located(TopBarLocators.ACCOUNT_SETTINGS))
         user_menu = self.user_menu
         user_menu.click()
 
