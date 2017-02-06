@@ -1,5 +1,6 @@
 # A common base page object to be used by all the page object
-from selenium.common.exceptions import TimeoutException, StaleElementReferenceException
+import time
+from selenium.common.exceptions import TimeoutException, StaleElementReferenceException, NoSuchElementException
 from selenium.webdriver.support.expected_conditions import visibility_of_element_located, element_to_be_clickable
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -108,13 +109,24 @@ class PageObject(object):
 
         return context.find_elements(*locator)
 
-    def click_element(self, locator, context=None):
+    def click_element(self, locator, context=None, retries=1, delay=1):
         """find the element then click it"""
         if context is None:
             context = self._webdriver
 
-        # wait until element is clickable before attempting to click
-        WebDriverWait(context, 5, 0.5).until(element_to_be_clickable(locator)).click()
+        screen = None
+        stacktrace = None
+
+        for count in range(retries):
+            # wait until element is clickable before attempting to click
+            try:
+                WebDriverWait(context, 2, 0.5).until(element_to_be_clickable(locator)).click()
+                return
+
+            except (TimeoutException, NoSuchElementException, StaleElementReferenceException):
+                time.sleep(delay)
+
+        raise TimeoutException("could not click button", screen, stacktrace)
 
     def send_keys(self, locator, text, context=None):
         """Find an editable element and change the text"""

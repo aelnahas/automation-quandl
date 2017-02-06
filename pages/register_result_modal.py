@@ -1,10 +1,10 @@
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.expected_conditions import visibility_of_element_located, \
-    invisibility_of_element_located
+    invisibility_of_element_located, presence_of_element_located
 from selenium.webdriver.support.wait import WebDriverWait
 
 from common.page_object import PageObject
-from pages.locators import RegisterModalLocators
+from pages.locators import RegisterModalLocators, TopBarLocators
 
 
 class RegisterResultModal(PageObject):
@@ -17,6 +17,8 @@ class RegisterResultModal(PageObject):
     def dismiss(self):
         """Dismiss the Modal by click the continue button"""
         self.click_element(RegisterModalLocators.MODAL_CONTINUE)
+        WebDriverWait(self._webdriver, 10, 1)\
+            .until(presence_of_element_located(TopBarLocators.ACCOUNT_SETTINGS))
 
     def is_successful_registration(self):
         """A function that determines whether if the user registration was successful

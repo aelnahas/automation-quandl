@@ -24,6 +24,7 @@ def test_sigining_up_using_home_page_form(browser, quandl_home, logger):
     logger.info("Check if the successful registration modal is displayed")
     registration_modal = RegisterResultModal(browser)
     assert registration_modal.is_successful_registration(), "Could not create a new account"
+
     logger.info("Dismiss the modal and logout the new user")
     registration_modal.dismiss()
     quandl_home.logout()

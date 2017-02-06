@@ -1,5 +1,4 @@
 import time
-from selenium.common.exceptions import NoSuchElementException, TimeoutException, ElementNotVisibleException
 from selenium.webdriver.support.expected_conditions import visibility_of_element_located, \
     invisibility_of_element_located, presence_of_element_located
 from selenium.webdriver.support.wait import WebDriverWait
@@ -66,23 +65,29 @@ class TopBarNav(PageObject):
         WebDriverWait(self._webdriver, 5, 0.5).until(visibility_of_element_located(SigninLocators.USERNAME),
                                                      message="Sign in page is not loaded or is missing username field")
 
+    def retry_logouts(self):
+        """Retry logouts until all 5 attempts are exhausted"""
+        for count in range(5):
+            elements = self.find_multi_elements(TopBarLocators.USER_MENU)
+
+            for element in elements:
+                if element.is_enabled() and element.is_displayed():
+                    element.click()
+
+                    logout = self.find_element(TopBarLocators.LOG_OUT, context=element)
+                    if logout and logout.is_enabled() and logout.is_displayed():
+                        logout.click()
+                        return
+
+            time.sleep(1)
+
     def logout(self):
         """logs the user out"""
         # first find the visible user menu
         # as a precaution make sure the user is logged in
         WebDriverWait(self._webdriver, 10, 1).until(presence_of_element_located(TopBarLocators.ACCOUNT_SETTINGS))
 
-        # expand the hamburger menu
-        WebDriverWait(self._webdriver, 10, 1).until(presence_of_element_located(TopBarLocators.ACCOUNT_SETTINGS))
-        user_menu = self.user_menu
-        user_menu.click()
-
-        # wait until the log out button is shown
-        WebDriverWait(user_menu, 5, 0.5).until(visibility_of_element_located(TopBarLocators.LOG_OUT),
-                                               message="Log out button is not present")
-
-        # use the visible user menu as context to find the log out button
-        self.find_element(TopBarLocators.LOG_OUT).click()
+        self.retry_logouts()
 
         # wait until there is no account setting reference, which means we logged out
         WebDriverWait(self._webdriver, 10, 1).until(invisibility_of_element_located(TopBarLocators.ACCOUNT_SETTINGS),
